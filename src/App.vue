@@ -1,19 +1,9 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
+import PlayingField from './components/PlayingField.vue'
 </script>
 
 <template>
-  <header>
-    <div>
-      <HelloWorld>
-        Test
-      </HelloWorld>
-    </div>
-  </header>
-
-  <main>
-    <HelloWorld>
-      Main
-    </HelloWorld>
+  <main class="flex items-center justify-center">
+    <PlayingField></PlayingField>
   </main>
 </template>
