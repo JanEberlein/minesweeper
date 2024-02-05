@@ -14,7 +14,6 @@ export const cells = reactive({data:
 )
 
 export function resetCells(columns = 8, rows = 8) {
-  console.log('reset')
   playingFieldDimension.columns = columns
   playingFieldDimension.rows = rows
   cells.data = Array.from(Array(playingFieldDimension.rows).keys()).map((r) =>
@@ -22,5 +21,4 @@ export function resetCells(columns = 8, rows = 8) {
       (c) => r * playingFieldDimension.columns + c
     )
   )
-  console.log(cells)
 }
