@@ -1,5 +1,5 @@
 <script setup>
-import { playingFieldDimension as dim, resetCells } from '@/store'
+import { playingFieldDimension as dim, newGame, logCells, gameOver } from '@/store'
 import MineTile from './MineTile.vue'
 import { ref } from 'vue'
 
@@ -9,20 +9,35 @@ const obstacles = ref(dim.obstacles)
 </script>
 
 <template>
-  <div class="flex flex-col items-center justify-center">
-    <div class="flex items-center justify-center m-0.5 p-0.5">
+  <div class="flex flex-col md:items-center justify-center">
+    <div class="flex items-center md:justify-center m-0.5 p-0.5">
       <label for="rows" class="m-0.5">Rows</label>
-      <input id="rows" type="number" v-model="rows" class="m-0.5 p-0.5 w-10" />
+      <input id="rows" type="number" min="1" max="100" v-model="rows" class="m-0.5 p-0.5 w-10" />
       <label for="columns" class="m-0.5">Columns</label>
-      <input id="columns" type="number" v-model="columns" class="m-0.5 p-0.5 w-10" />
+      <input
+        id="columns"
+        type="number"
+        min="1"
+        max="100"
+        v-model="columns"
+        class="m-0.5 p-0.5 w-10"
+      />
       <label for="obstacles" class="m-0.5">Obstacles</label>
-      <input id="obstacles" type="number" v-model="obstacles" class="m-0.5 p-0.5 w-10" />
-      <button class="m-0.5 p-0.5 bg-slate-400" @click="resetCells(rows, columns, obstacles)">
+      <input
+        id="obstacles"
+        type="number"
+        min="1"
+        max="100"
+        v-model="obstacles"
+        class="m-0.5 p-0.5 w-10"
+      />
+      <button class="m-0.5 p-0.5 bg-slate-400" @click="newGame(rows, columns, obstacles)">
         New Game
       </button>
+      <button class="m-0.5 p-0.5 bg-slate-400" @click="logCells">Log Cells</button>
     </div>
 
-    <div class="overflow-x-scroll w-screen md:w-auto">
+    <div class="overflow-x-scroll w-screen md:w-auto p-2">
       <table class="table-auto">
         <tbody>
           <tr v-for="row in dim.rows" :key="row">
@@ -32,6 +47,7 @@ const obstacles = ref(dim.obstacles)
           </tr>
         </tbody>
       </table>
+      <h1 v-if="gameOver" class="text-3xl font-bold w-full md:text-center">Game Over!</h1>
     </div>
   </div>
 </template>
