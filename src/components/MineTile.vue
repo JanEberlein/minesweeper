@@ -54,7 +54,7 @@ const cellContent = computed(() => {
     class="flex items-center justify-center m-1 h-8 w-8 p-0 shadow-inner text-balance text-lg hover:m-0 hover:h-10 hover:w-10 hover:text-2xl"
     :class="{
       'bg-red-500':
-        (gameOver && cell.revealed && cell.obstacle) || (cell.marked == '🚩' && !cell.obstacle),
+        gameOver && ((cell.revealed && cell.obstacle) || (cell.marked == '🚩' && !cell.obstacle)),
       'bg-slate-300': !(
         (gameOver && cell.revealed && cell.obstacle) ||
         (cell.marked == '🚩' && !cell.obstacle)

@@ -5,6 +5,8 @@ const dimensions = reactive({
   rows: 8,
   obstacles: 10
 })
+export const minDimension = 4
+export const maxDimension = 100
 
 const cells = reactive({ data: newPlayingField() })
 
@@ -76,9 +78,9 @@ export function newGame(rows = 8, columns = 8, obstacles = 10) {
   gameOver.value = false
   gameWon.value = false
 
-  dimensions.columns = columns
-  dimensions.rows = rows
-  dimensions.obstacles = obstacles
+  dimensions.columns = clamp(minDimension, columns, maxDimension)
+  dimensions.rows = clamp(minDimension, rows, maxDimension)
+  dimensions.obstacles = clamp(1, obstacles, dimensions.columns * dimensions.rows / 2)
 
   countMarked.value = 0
   countRevealed.value = 0
@@ -117,7 +119,7 @@ async function distributeObstacles(firstRevealedCellKey) {
 
   for (const locationKey of obstacleLocations) {
     const locationRow = Math.floor(locationKey / dimensions.columns)
-    const locationColumn = locationKey % dimensions.rows
+    const locationColumn = locationKey % dimensions.columns
 
     getCell(locationRow, locationColumn).value.obstacle = true
     for (const [neighborRow, neighborColumn] of getSurroundingCoords(locationRow, locationColumn)) {
@@ -130,6 +132,6 @@ function setGameOver() {
   gameOver.value = true
 }
 
-export function logCells() {
-  console.log(cells)
+export function clamp (lowerLimit, value, upperLimit) {
+  return Math.max(lowerLimit, Math.min(value, upperLimit))
 }

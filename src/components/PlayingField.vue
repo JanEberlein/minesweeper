@@ -1,11 +1,15 @@
 <script setup>
-import { playingFieldDimension as dim, newGame, gameOver, gameWon, countMarked } from '@/store'
+import { playingFieldDimension as dim, newGame, gameOver, gameWon, countMarked, minDimension, maxDimension, clamp } from '@/store'
 import MineTile from './MineTile.vue'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 
 const columns = ref(dim.columns)
 const rows = ref(dim.rows)
 const obstacles = ref(dim.obstacles)
+
+watch([rows, columns], () => {
+  obstacles.value = clamp(1, obstacles.value, rows.value * columns.value /2)
+})
 </script>
 
 <template>
@@ -18,28 +22,28 @@ const obstacles = ref(dim.obstacles)
         <input
           id="rows"
           type="number"
-          min="1"
-          max="100"
+          :min="minDimension"
+          :max="maxDimension"
           v-model="rows"
-          class="m-0.5 p-0.5 w-10 bg-transparent"
+          class="m-0.5 p-0.5 w-12 bg-transparent"
         />
         <label for="columns" class="m-0.5">Columns</label>
         <input
           id="columns"
           type="number"
-          min="1"
-          max="100"
+          :min="minDimension"
+          :max="maxDimension"
           v-model="columns"
-          class="m-0.5 p-0.5 w-10 bg-transparent"
+          class="m-0.5 p-0.5 w-12 bg-transparent"
         />
         <label for="obstacles" class="m-0.5">Obstacles</label>
         <input
           id="obstacles"
           type="number"
           min="1"
-          max="100"
-          v-model="obstacles"
-          class="m-0.5 p-0.5 w-10 bg-transparent"
+          :max="rows * columns /2"
+          v-model.number="obstacles"
+          class="m-0.5 p-0.5 w-12 bg-transparent"
         />
       </div>
       <button
