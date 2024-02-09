@@ -16,7 +16,14 @@ export const countMarked = ref(0)
 export const countRevealed = ref(0)
 
 watch(countRevealed, () => {
-  console.log('marked: ' + countMarked.value + ', revealed: ' + countRevealed.value + ', total: ' + (countRevealed.value + countMarked.value))
+  console.log(
+    'marked: ' +
+      countMarked.value +
+      ', revealed: ' +
+      countRevealed.value +
+      ', total: ' +
+      (countRevealed.value + countMarked.value)
+  )
   if (dimensions.obstacles + countRevealed.value == dimensions.rows * dimensions.columns) {
     gameWon.value = true
     gameOver.value = true
