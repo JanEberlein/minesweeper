@@ -80,7 +80,7 @@ export function newGame(rows = 8, columns = 8, obstacles = 10) {
 
   dimensions.columns = clamp(minDimension, columns, maxDimension)
   dimensions.rows = clamp(minDimension, rows, maxDimension)
-  dimensions.obstacles = clamp(1, obstacles, dimensions.columns * dimensions.rows / 2)
+  dimensions.obstacles = clamp(1, obstacles, (dimensions.columns * dimensions.rows) / 2)
 
   countMarked.value = 0
   countRevealed.value = 0
@@ -132,6 +132,6 @@ function setGameOver() {
   gameOver.value = true
 }
 
-export function clamp (lowerLimit, value, upperLimit) {
+export function clamp(lowerLimit, value, upperLimit) {
   return Math.max(lowerLimit, Math.min(value, upperLimit))
 }

@@ -1,5 +1,14 @@
 <script setup>
-import { playingFieldDimension as dim, newGame, gameOver, gameWon, countMarked, minDimension, maxDimension, clamp } from '@/store'
+import {
+  playingFieldDimension as dim,
+  newGame,
+  gameOver,
+  gameWon,
+  countMarked,
+  minDimension,
+  maxDimension,
+  clamp
+} from '@/store'
 import MineTile from './MineTile.vue'
 import { ref, watch } from 'vue'
 
@@ -8,12 +17,12 @@ const rows = ref(dim.rows)
 const obstacles = ref(dim.obstacles)
 
 watch([rows, columns], () => {
-  obstacles.value = clamp(1, obstacles.value, rows.value * columns.value /2)
+  obstacles.value = clamp(1, obstacles.value, (rows.value * columns.value) / 2)
 })
 </script>
 
 <template>
-  <div class="flex flex-col md:items-center justify-center">
+  <div class="flex flex-col md:items-center justify-start min-h-screen">
     <div class="flex items-center md:justify-center my-0.5 p-0.5">
       <div
         class="m-2.5 px-1 bg-slate-300 shadow-inner shadow-white border-r-2 border-b-2 border-slate-400"
@@ -41,7 +50,7 @@ watch([rows, columns], () => {
           id="obstacles"
           type="number"
           min="1"
-          :max="rows * columns /2"
+          :max="(rows * columns) / 2"
           v-model.number="obstacles"
           class="m-0.5 p-0.5 w-12 bg-transparent"
         />
@@ -76,5 +85,10 @@ watch([rows, columns], () => {
       <h1 v-if="gameWon" class="text-3xl font-bold w-full md:text-center">Game Won 🎉</h1>
       <h1 v-else-if="gameOver" class="text-3xl font-bold w-full md:text-center">Game Over!</h1>
     </div>
+    <p class="grow"></p>
+    <p class="text-sm text-slate-300">
+      This is just some private project playing around witch vue and tailwind. I don't claim
+      ownership of the idea.
+    </p>
   </div>
 </template>
