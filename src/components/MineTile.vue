@@ -1,5 +1,5 @@
 <script setup>
-import { cellRevealed, gameOver, getCell } from '@/store'
+import { cellRevealed, countMarked, gameOver, getCell } from '@/store'
 import { computed } from 'vue'
 
 const props = defineProps({
@@ -27,9 +27,11 @@ function markCell() {
   switch (cell.value.marked) {
     case '':
       cell.value.marked = '🚩'
+      countMarked.value++
       break
     case '🚩':
       cell.value.marked = '❓'
+      countMarked.value--
       break
     default:
       cell.value.marked = ''

@@ -1,5 +1,5 @@
 <script setup>
-import { playingFieldDimension as dim, newGame, logCells, gameOver } from '@/store'
+import { playingFieldDimension as dim, newGame, logCells, gameOver, gameWon } from '@/store'
 import MineTile from './MineTile.vue'
 import { ref } from 'vue'
 
@@ -47,7 +47,8 @@ const obstacles = ref(dim.obstacles)
           </tr>
         </tbody>
       </table>
-      <h1 v-if="gameOver" class="text-3xl font-bold w-full md:text-center">Game Over!</h1>
+      <h1 v-if="gameWon" class="text-3xl font-bold w-full md:text-center">Game Won!</h1>
+      <h1 v-else-if="gameOver" class="text-3xl font-bold w-full md:text-center">Game Over!</h1>
     </div>
   </div>
 </template>

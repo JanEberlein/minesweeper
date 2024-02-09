@@ -1,4 +1,4 @@
-import { computed, reactive, readonly, ref } from 'vue'
+import { computed, reactive, readonly, ref, watch } from 'vue'
 
 const dimensions = reactive({
   columns: 8,
@@ -12,6 +12,15 @@ export const playingFieldDimension = readonly(dimensions)
 export const gameOver = ref(false)
 export const gameWon = ref(false)
 export const gameActive = ref(false)
+export const countMarked = ref(0)
+export const countRevealed = ref(0)
+
+watch([countMarked, countRevealed], () => {
+  if (countMarked.value + countRevealed.value == dimensions.rows * dimensions.columns) {
+
+    gameWon.value = true
+  }
+})
 
 export function getCell(row, column) {
   return computed(() => {
@@ -23,6 +32,7 @@ export async function cellRevealed(row, column) {
   const cell = getCell(row, column)
   cell.value.revealed = true
   cell.value.marked = ''
+  countRevealed.value++
 
   if (!gameActive.value) {
     await startGame(cell)
@@ -33,7 +43,6 @@ export async function cellRevealed(row, column) {
 
   if (cell.value.surroundingObstacles == 0) {
     for (const [neighborRow, neighborColumn] of getSurroundingCoords(row, column)) {
-      console.log('reveal surrounding ' + neighborRow + ' ' + neighborColumn)
       if (!getCell(neighborRow, neighborColumn).value.revealed) {
         cellRevealed(neighborRow, neighborColumn)
       }
@@ -59,6 +68,9 @@ export function newGame(rows = 8, columns = 8, obstacles = 10) {
   dimensions.columns = columns
   dimensions.rows = rows
   dimensions.obstacles = obstacles
+
+  countMarked.value = 0
+  countRevealed.value = 0
   cells.data = newPlayingField()
 }
 
