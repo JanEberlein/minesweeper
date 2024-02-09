@@ -1,5 +1,5 @@
 <script setup>
-import { gameOver, getCell } from '@/store'
+import { cellRevealed, gameOver, getCell } from '@/store'
 import { computed } from 'vue'
 
 const props = defineProps({
@@ -15,18 +15,15 @@ const props = defineProps({
 
 const cell = getCell(props.row, props.column)
 
-var obstaclesNearby = 0
-function getSurroundingCells(row, column) {}
-
 function revealCell() {
   if (gameOver.value) return
   if (cell.value.marked == '🚩') return
-  cell.value.revealed = true
-  if (cell.value.obstacle) gameOver.value = true
+
+  cellRevealed(props.row, props.column)
 }
 
 function markCell() {
-  if(gameOver.value) return
+  if (gameOver.value) return
   switch (cell.value.marked) {
     case '':
       cell.value.marked = '🚩'
@@ -41,27 +38,29 @@ function markCell() {
 }
 
 const cellContent = computed(() => {
-  //TODO
-  return ''
+  if (cell.value.marked != '') return cell.value.marked
+  else if (cell.value.revealed && cell.value.obstacle) return '💣'
+  else if (gameOver.value && cell.value.obstacle) return '💣'
+  else if (cell.value.revealed && cell.value.surroundingObstacles > 0)
+    return cell.value.surroundingObstacles
+  else return ''
 })
 </script>
 
 <template>
   <div
     class="flex items-center justify-center m-1 h-8 w-8 p-0 shadow-inner text-balance text-lg hover:m-0 hover:h-10 hover:w-10 hover:text-2xl"
-    :class="{      
+    :class="{
       'bg-red-500': cell.revealed && cell.obstacle && gameOver,
       'bg-slate-300': !(cell.revealed && cell.obstacle && gameOver),
       'shadow-slate-400 border-r-2 border-b-2 border-slate-200': cell.revealed,
-      'shadow-slate-200 border-r-2 border-b-2 border-slate-300': !cell.revealed}"
+      'shadow-slate-200 border-r-2 border-b-2 border-slate-300': !cell.revealed
+    }"
     @click="revealCell"
     @click.right.prevent="markCell"
   >
-    <div v-if="cell.revealed">
+    <div class="drop-shadow-md saturate-200">
       {{ cellContent }}
-    </div>
-    <div v-else class="drop-shadow-md saturate-200">
-      {{ cell.marked }}
     </div>
   </div>
 </template>
