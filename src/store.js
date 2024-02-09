@@ -15,10 +15,11 @@ export const gameActive = ref(false)
 export const countMarked = ref(0)
 export const countRevealed = ref(0)
 
-watch([countMarked, countRevealed], () => {
-  if (countMarked.value + countRevealed.value == dimensions.rows * dimensions.columns) {
-
+watch(countRevealed, () => {
+  console.log('marked: ' + countMarked.value + ', revealed: ' + countRevealed.value + ', total: ' + (countRevealed.value + countMarked.value))
+  if (dimensions.obstacles + countRevealed.value == dimensions.rows * dimensions.columns) {
     gameWon.value = true
+    gameOver.value = true
   }
 })
 
@@ -30,9 +31,12 @@ export function getCell(row, column) {
 
 export async function cellRevealed(row, column) {
   const cell = getCell(row, column)
+  if (cell.value.revealed) return
   cell.value.revealed = true
-  cell.value.marked = ''
   countRevealed.value++
+
+  if (cell.value.marked) countMarked.value--
+  cell.value.marked = ''
 
   if (!gameActive.value) {
     await startGame(cell)

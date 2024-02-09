@@ -53,10 +53,10 @@ const cellContent = computed(() => {
   <div
     class="flex items-center justify-center m-1 h-8 w-8 p-0 shadow-inner text-balance text-lg hover:m-0 hover:h-10 hover:w-10 hover:text-2xl"
     :class="{
-      'bg-red-500': cell.revealed && cell.obstacle && gameOver,
-      'bg-slate-300': !(cell.revealed && cell.obstacle && gameOver),
-      'shadow-slate-400 border-r-2 border-b-2 border-slate-200': cell.revealed,
-      'shadow-slate-200 border-r-2 border-b-2 border-slate-300': !cell.revealed
+      'bg-red-500': gameOver && (cell.revealed && cell.obstacle) || (cell.marked == '🚩' && !cell.obstacle),
+      'bg-slate-300': !(gameOver && (cell.revealed && cell.obstacle) || (cell.marked == '🚩' && !cell.obstacle)),
+      'shadow-slate-600 border-r-2 border-b-2 border-slate-200': cell.revealed,
+      'shadow-white border-r-2 border-b-2 border-slate-400': !cell.revealed
     }"
     @click="revealCell"
     @click.right.prevent="markCell"
