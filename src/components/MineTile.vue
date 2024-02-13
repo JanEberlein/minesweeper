@@ -24,6 +24,7 @@ function revealCell() {
 
 function markCell() {
   if (gameOver.value) return
+  if (cell.value.revealed) return
   switch (cell.value.marked) {
     case '':
       cell.value.marked = '🚩'
@@ -62,6 +63,7 @@ const cellContent = computed(() => {
       'shadow-slate-600 border-r-2 border-b-2 border-slate-200': cell.revealed,
       'shadow-white border-r-2 border-b-2 border-slate-400': !cell.revealed
     }"
+    v-touch:longtap="markCell"
     @click="revealCell"
     @click.right.prevent="markCell"
   >
