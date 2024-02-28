@@ -22,10 +22,10 @@ watch([rows, columns], () => {
 </script>
 
 <template>
-  <div class="flex flex-col md:items-center justify-start min-h-screen">
-    <div class="flex items-center md:justify-center my-0.5 p-0.5">
+  <div class="flex flex-col sm:items-center justify-start min-h-screen">
+    <div class="flex items-center sm:justify-center my-0.5 p-0.5">
       <div
-        class="m-2.5 px-1 bg-slate-300 shadow-inner shadow-white border-r-2 border-b-2 border-slate-400"
+        class="max-w-36 sm:max-w-none m-2.5 px-1 bg-slate-300 shadow-inner shadow-white border-r-2 border-b-2 border-slate-400"
       >
         <label for="rows" class="m-0.5">Rows</label>
         <input
@@ -56,7 +56,7 @@ watch([rows, columns], () => {
         />
       </div>
       <button
-        class="m-1.5 px-2.5 py-1 hover:m-0 hover:py-1 hover:text-xl text-balance bg-slate-300 shadow-inner shadow-white border-r-2 border-b-2 border-slate-400 active:shadow-slate-600 active:border-slate-200"
+        class="self-center m-2 mx-4 px-2.5 py-1 hover:m-0 hover:mx-1.5 hover:text-xl text-balance bg-slate-300 shadow-inner shadow-white border-r-2 border-b-2 border-slate-400 active:shadow-slate-600 active:border-slate-200"
         @click="newGame(rows, columns, obstacles)"
       >
         New Game
@@ -70,7 +70,7 @@ watch([rows, columns], () => {
       {{ Math.max(dim.obstacles - countMarked, 0) }}
     </div>
 
-    <div class="overflow-x-scroll w-screen md:w-auto p-2">
+    <div class="overflow-x-scroll w-screen sm:w-auto p-2">
       <table
         class="table-auto bg-slate-200 border-separate p-0.5 m-1 shadow-inner shadow-white border-r-2 border-b-2 border-slate-300"
       >
@@ -82,8 +82,8 @@ watch([rows, columns], () => {
           </tr>
         </tbody>
       </table>
-      <h1 v-if="gameWon" class="text-3xl font-bold w-full md:text-center">Game Won 🎉</h1>
-      <h1 v-else-if="gameOver" class="text-3xl font-bold w-full md:text-center">Game Over!</h1>
+      <h1 v-if="gameWon" class="text-3xl font-bold w-full sm:text-center">Game Won 🎉</h1>
+      <h1 v-else-if="gameOver" class="text-3xl font-bold w-full sm:text-center">Game Over!</h1>
     </div>
     <p class="grow"></p>
     <p class="text-sm text-slate-300">
